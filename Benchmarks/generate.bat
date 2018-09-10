@@ -1,0 +1,2 @@
+"C:\Projects\Temp\ProtoEvents\ProtoEvents\Proto\bin\protoc.exe" "--proto_path=C:\Projects\Temp\ProtoEvents\ProtoEvents\GenSource" --csharp_out=Generated\Protobuf "C:\Projects\Temp\ProtoEvents\ProtoEvents\GenSource\TestEvent.proto" "C:\Projects\Temp\ProtoEvents\ProtoEvents\GenSource\TestEventArray.proto"
+dotnet "C:\Projects\Temp\ProtoEvents\ProtoEvents\Avro\avrogen.dll" -s "C:\Projects\Temp\ProtoEvents\ProtoEvents\GenSource\TestEvent.json" "c:\Projects\Temp\ProtoEvents\ProtoEvents\Generated\Avro"

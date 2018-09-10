@@ -1,0 +1,7 @@
+syntax = "proto3";
+package testevents.protobuf;
+import "TestEvent.proto";
+
+message TestEventArray {
+    repeated testevents.protobuf.TestEvent data=1;
+}

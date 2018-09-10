@@ -1,0 +1,47 @@
+[
+  {
+    "type": "record",
+    "name": "TestEvent",
+    "namespace": "ProtoEvents.Avro",
+    "fields": [
+      {
+        "name": "id",
+        "type": "bytes"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "x",
+        "type": "double"
+      },
+      {
+        "name": "y",
+        "type": "double"
+      },
+      {
+        "name": "z",
+        "type": "double"
+      },
+      {
+        "name": "timeStamp",
+        "type": "long"
+      }
+    ]
+  },
+  {
+    "type": "record",
+    "name": "TestEventArray",
+    "namespace": "ProtoEvents.Avro",
+    "fields": [
+      {
+        "name": "events",
+        "type": {
+          "type": "array",
+          "items": "ProtoEvents.Avro.TestEvent"
+        }
+      }
+    ]
+  }
+]
