@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using Avro.IO;
 using Avro.Specific;
 using BenchmarkDotNet.Attributes;
@@ -39,6 +40,8 @@ namespace ProtoEvents
         private byte[] Utf8JsonData = null;
         private byte[] zeroFormatterData = null;
         private byte[] bondData = null;
+        private byte[] SystemTextData = null;
+        private byte[] spreadsData = null;
 
 
         [GlobalSetup]
@@ -108,7 +111,10 @@ namespace ProtoEvents
                 }
 
                 Utf8JsonData = Utf8Json.JsonSerializer.Serialize(@event, StandardResolver.CamelCase);
+                spreadsData = Spreads.Serialization.Utf8Json.JsonSerializer.Serialize(@event,
+                    Spreads.Serialization.Utf8Json.Resolvers.StandardResolver.CamelCase);
                 zeroFormatterData = ZeroFormatterSerializer.Serialize(@event);
+                SystemTextData = System.Text.Json.Serialization.JsonSerializer.ToUtf8Bytes(@event);
 
                 var output = new OutputBuffer();
                 var writer = new CompactBinaryWriter<OutputBuffer>(output);
@@ -173,6 +179,13 @@ namespace ProtoEvents
         }
 
         [Benchmark]
+        public byte[] SerializeSystemText()
+        {
+            var result = System.Text.Json.Serialization.JsonSerializer.ToUtf8Bytes(_event);
+            return result;
+        }
+
+        [Benchmark]
         public byte[] SerializeGProto()
         {
             var data = new Testevents.Protobuf.TestEvent
@@ -212,6 +225,14 @@ namespace ProtoEvents
         public byte[] SerializeUtf8Json()
         {
             var result = Utf8Json.JsonSerializer.Serialize(_event, StandardResolver.CamelCase);
+            return result;
+        }
+
+        [Benchmark]
+        public byte[] SerializeSpreads()
+        {
+            var result = Spreads.Serialization.Utf8Json.JsonSerializer.Serialize(_event,
+                Spreads.Serialization.Utf8Json.Resolvers.StandardResolver.CamelCase);
             return result;
         }
 
@@ -304,6 +325,21 @@ namespace ProtoEvents
         public TestEvent DeserializeNewtonsoft()
         {
             var result = JsonConvert.DeserializeObject<TestEvent>(Encoding.UTF8.GetString(NewtonsoftData));
+            return result;
+        }
+
+        [Benchmark]
+        public TestEvent DeserializeSystemText()
+        {
+            var result = System.Text.Json.Serialization.JsonSerializer.Parse<TestEvent>(SystemTextData.AsSpan());
+            return result;
+        }
+
+        [Benchmark]
+        public TestEvent DeserializeSpreads()
+        {
+            var result = Spreads.Serialization.Utf8Json.JsonSerializer.Deserialize<TestEvent>(spreadsData,
+                Spreads.Serialization.Utf8Json.Resolvers.StandardResolver.CamelCase);
             return result;
         }
 

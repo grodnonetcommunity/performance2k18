@@ -7,18 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="BenchmarkDotNet" Version="0.11.1" />
-      <PackageReference Include="Bond.CSharp" Version="8.0.0" />
+      <PackageReference Include="BenchmarkDotNet" Version="0.11.5" />
+      <PackageReference Include="Bond.CSharp" Version="8.1.0" />
       <PackageReference Include="EventStore.ClientAPI.NetCore" Version="4.1.0.23" />
-      <PackageReference Include="Google.Protobuf" Version="3.6.1" />
-      <PackageReference Include="Jil" Version="2.16.0" />
-      <PackageReference Include="MessagePack" Version="1.7.3.4" />
-      <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+      <PackageReference Include="Google.Protobuf" Version="3.8.0" />
+      <PackageReference Include="Jil" Version="2.17.0" />
+      <PackageReference Include="MessagePack" Version="1.7.3.7" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
       <PackageReference Include="protobuf-net" Version="2.4.0" />
-      <PackageReference Include="SpanJson" Version="1.2.4" />
+      <PackageReference Include="SpanJson" Version="2.0.14" />
+      <PackageReference Include="Spreads.Core" Version="2019.0.412" />
+      <PackageReference Include="System.Text.Json" Version="4.6.0-preview6.19303.8" />
       <PackageReference Include="Utf8Json" Version="1.3.7" />
       <PackageReference Include="ZeroFormatter" Version="1.6.4" />
-      <PackageReference Include="Confluent.Apache.Avro" Version="1.7.7.5" />
+      <PackageReference Include="Confluent.Apache.Avro" Version="1.7.7.6" />
     </ItemGroup>
 
 </Project>

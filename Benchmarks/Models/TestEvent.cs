@@ -25,7 +25,6 @@ namespace ProtoEvents
             TimeStamp = dateTimeOffset;
         }
 
-\
         [ProtoMember(1, Name = "id")]
         [Index(0)]
         [JilDirective("id")]

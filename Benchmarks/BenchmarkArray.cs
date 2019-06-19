@@ -42,6 +42,8 @@ namespace ProtoEvents
         private byte[] AvroData;
         private byte[] NewtonsoftData;
         private byte[] Utf8JsonData;
+        private byte[] SpreadsData;
+        private byte[] SystemTextData;
         private byte[] zeroFormatterData;
         private byte[] spanJsonData;
         private byte[] bondData;
@@ -111,6 +113,9 @@ namespace ProtoEvents
             }
 
             Utf8JsonData = Utf8Json.JsonSerializer.Serialize(_events, StandardResolver.CamelCase);
+            SpreadsData = Spreads.Serialization.Utf8Json.JsonSerializer.Serialize(_events,
+                Spreads.Serialization.Utf8Json.Resolvers.StandardResolver.CamelCase);
+            SystemTextData = System.Text.Json.Serialization.JsonSerializer.ToUtf8Bytes(_events);
             spanJsonData = SpanJson.JsonSerializer.Generic.Utf8.Serialize<TestEventArray, ExcludeNullsCamelCaseResolver<byte>>(_events);
             zeroFormatterData = ZeroFormatterSerializer.Serialize(_events);
 
@@ -234,6 +239,19 @@ namespace ProtoEvents
         }
 
         [Benchmark]
+        public byte[] SerializeSystemText()
+        {
+            return System.Text.Json.Serialization.JsonSerializer.ToUtf8Bytes(_events);
+        }
+
+        [Benchmark]
+        public byte[] SerializeSpreads()
+        {
+            return Spreads.Serialization.Utf8Json.JsonSerializer.Serialize(_events,
+                Spreads.Serialization.Utf8Json.Resolvers.StandardResolver.CamelCase);
+        }
+
+        [Benchmark]
         public byte[] SerializeZeroFormatter()
         {
             var result = ZeroFormatterSerializer.Serialize(_events);
@@ -350,6 +368,19 @@ namespace ProtoEvents
                 SpanJson.JsonSerializer.Generic.Utf8.Deserialize<TestEventArray, ExcludeNullsCamelCaseResolver<byte>>(
                     spanJsonData);
             return result;
+        }
+
+        [Benchmark]
+        public TestEventArray DeserializeSystemText()
+        {
+            return System.Text.Json.Serialization.JsonSerializer.Parse<TestEventArray>(SystemTextData.AsSpan());
+        }
+
+        [Benchmark]
+        public TestEventArray DeserializeSpreads()
+        {
+            return Spreads.Serialization.Utf8Json.JsonSerializer.Deserialize<TestEventArray>(SpreadsData,
+                Spreads.Serialization.Utf8Json.Resolvers.StandardResolver.CamelCase);
         }
 
         [Benchmark]
